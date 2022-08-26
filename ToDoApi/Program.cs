@@ -15,32 +15,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-const string toDoEndpointUrl = $"api/todo";
-
 // get all
-app.MapGet(toDoEndpointUrl, async (AppDbContext appDbContext) =>
+app.MapGet(ToDoEndpointUrl, async (AppDbContext appDbContext) =>
 {
     var toDos = await appDbContext.ToDos.ToListAsync();
     return Results.Ok(toDos);
 });
 
 // get one
-app.MapGet($"{toDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id) =>
+app.MapGet($"{ToDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id) =>
 {
     var foundToDo = await appDbContext.ToDos.FindAsync(id);
     return Results.Ok(foundToDo);
 });
 
 // create
-app.MapPost(toDoEndpointUrl, async (AppDbContext appDbContext, ToDo newToDo) =>
+app.MapPost(ToDoEndpointUrl, async (AppDbContext appDbContext, ToDo newToDo) =>
 {
     await appDbContext.ToDos.AddAsync(newToDo);
     await appDbContext.SaveChangesAsync();
-    return Results.Created($"{toDoEndpointUrl}/{newToDo.Id}", newToDo);
+    return Results.Created($"{ToDoEndpointUrl}/{newToDo.Id}", newToDo);
 });
 
 // update
-app.MapPut($"{toDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id, ToDo toDo) =>
+app.MapPut($"{ToDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id, ToDo toDo) =>
 {
     var foundToDo = await appDbContext.ToDos.FindAsync(id);
     if (foundToDo is null)
@@ -53,7 +51,7 @@ app.MapPut($"{toDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id
 });
 
 // delete
-app.MapDelete($"{toDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id) =>
+app.MapDelete($"{ToDoEndpointUrl}/{{id}}", async (AppDbContext appDbContext, int id) =>
 {
     var foundToDo = await appDbContext.ToDos.FindAsync(id);
     if (foundToDo is null)
