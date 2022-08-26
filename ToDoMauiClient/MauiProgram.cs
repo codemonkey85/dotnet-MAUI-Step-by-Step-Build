@@ -15,8 +15,35 @@ public static class MauiProgram
 
         var services = builder.Services;
 
-        services.AddHttpClient("todoRestService", config => config.BaseAddress = new Uri("https://localhost:7012/"));
-        services.AddSingleton<IRestDataService, RestDataService>();
+        var apiBaseUrl = "";
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+        {
+            apiBaseUrl = "https://localhost:7012/";
+        }
+        else if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
+        {
+            apiBaseUrl = "https://localhost:7012/";
+        }
+        else if (DeviceInfo.Current.Platform == DevicePlatform.MacCatalyst)
+        {
+            apiBaseUrl = "https://localhost:7012/";
+        }
+        else if (DeviceInfo.Current.Platform == DevicePlatform.WinUI)
+        {
+            apiBaseUrl = "https://localhost:7012/";
+        }
+        else
+        {
+            apiBaseUrl = "https://localhost:7012/";
+        }
+
+        const string httpClientName = @"todoRestService";
+
+        services.AddHttpClient(httpClientName, config => config.BaseAddress = new Uri(apiBaseUrl));
+        services
+            .AddScoped(sp => sp.GetService<IHttpClientFactory>()!.CreateClient(httpClientName))
+            .AddSingleton<IRestDataService, RestDataService>()
+            .AddSingleton<MainPage>();
 
         return builder.Build();
     }

@@ -1,6 +1,4 @@
-﻿using ToDoShared.Models;
-
-namespace ToDoMauiClient.Services;
+﻿namespace ToDoMauiClient.Services;
 
 public record RestDataService(HttpClient HttpClient) : IRestDataService
 {

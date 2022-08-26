@@ -2,14 +2,21 @@
 
 public partial class MainPage : ContentPage
 {
-    private int count = 0;
+    private readonly IRestDataService dataService;
 
-    public MainPage() => InitializeComponent();
-
-    private void OnCounterClicked(object sender, EventArgs e)
+    public MainPage(IRestDataService dataService)
     {
-        count++;
-        CounterBtn.Text = count == 1 ? $"Clicked {count} time" : $"Clicked {count} times";
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        InitializeComponent();
+        this.dataService = dataService;
+    }
+
+    protected async override void OnAppearing() 
+    {
+        base.OnAppearing();
+        var toDos = await dataService.GetAllToDosAsync();
+        foreach (var toDo in toDos) 
+        {
+            Debug.WriteLine($"{toDo.Id} - {toDo.Title}");
+        }
     }
 }
