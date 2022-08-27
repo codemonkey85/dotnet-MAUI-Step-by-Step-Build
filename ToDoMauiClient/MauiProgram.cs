@@ -15,29 +15,16 @@ public static class MauiProgram
 
         var services = builder.Services;
 
-        var apiBaseUrl = "";
-        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
-        {
-            apiBaseUrl = "https://localhost:7012/";
-        }
-        else if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
-        {
-            apiBaseUrl = "https://localhost:7012/";
-        }
-        else if (DeviceInfo.Current.Platform == DevicePlatform.MacCatalyst)
-        {
-            apiBaseUrl = "https://localhost:7012/";
-        }
-        else if (DeviceInfo.Current.Platform == DevicePlatform.WinUI)
-        {
-            apiBaseUrl = "https://localhost:7012/";
-        }
-        else
-        {
-            apiBaseUrl = "https://localhost:7012/";
-        }
-
         const string httpClientName = @"todoRestService";
+
+        var apiBaseUrl = DeviceInfo.Current.Platform switch
+        {
+            var platform when platform == DevicePlatform.Android => "https://localhost:7012/",
+            var platform when platform == DevicePlatform.iOS => "https://localhost:7012/",
+            var platform when platform == DevicePlatform.MacCatalyst => "https://localhost:7012/",
+            var platform when platform == DevicePlatform.WinUI => "https://localhost:7012/",
+            _ => "https://localhost:7012/",
+        };
 
         services.AddHttpClient(httpClientName, config => config.BaseAddress = new Uri(apiBaseUrl));
         services
