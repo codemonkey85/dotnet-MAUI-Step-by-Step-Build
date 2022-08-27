@@ -10,13 +10,22 @@ public partial class MainPage : ContentPage
         this.dataService = dataService;
     }
 
-    protected async override void OnAppearing() 
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
         var toDos = await dataService.GetAllToDosAsync();
-        foreach (var toDo in toDos) 
-        {
-            Debug.WriteLine($"{toDo.Id} - {toDo.Title}");
-        }
+        collectionView.ItemsSource = toDos;
     }
+
+    private async void OnAddToDoClickedAsync(object sender, EventArgs e) =>
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), new Dictionary<string, object>
+        {
+            [nameof(ToDo)] = new ToDo(),
+        });
+
+    private async void OnSelectionChangedAsync(object sender, SelectionChangedEventArgs e) =>
+        await Shell.Current.GoToAsync(nameof(ManageToDoPage), new Dictionary<string, object>
+        {
+            [nameof(ToDo)] = e?.CurrentSelection?[0] as ToDo,
+        });
 }

@@ -43,7 +43,8 @@ public static class MauiProgram
         services
             .AddScoped(sp => sp.GetService<IHttpClientFactory>()!.CreateClient(httpClientName))
             .AddSingleton<IRestDataService, RestDataService>()
-            .AddSingleton<MainPage>();
+            .AddSingleton<MainPage>()
+            .AddTransient<ManageToDoPage>();
 
         return builder.Build();
     }

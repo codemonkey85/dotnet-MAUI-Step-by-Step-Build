@@ -57,4 +57,10 @@
 	  <ProjectReference Include="..\ToDoShared\ToDoShared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\ManageToDoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

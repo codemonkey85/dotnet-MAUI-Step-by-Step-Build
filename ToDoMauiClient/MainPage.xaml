@@ -3,13 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToDoMauiClient.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add ToDo" Clicked="OnAddToDoClickedAsync" />
+    </ContentPage.ToolbarItems>
 
-        </VerticalStackLayout>
-    </ScrollView>
+    <CollectionView x:Name="collectionView"
+                    SelectionMode="Single"
+                    SelectionChanged="OnSelectionChangedAsync"
+                    Margin="30">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical"
+                               ItemSpacing="20" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Label Text="{Binding Title}"
+                       FontSize="Medium"/>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 
 </ContentPage>
